@@ -103,7 +103,7 @@ cd build
 	%{?with_apidocs:-DDOCUMENTATION=ON} \
 	%{?with_vala:-DVAPI=ON}
 
-%{__make}
+%{__make} -j1
 
 %install
 rm -rf $RPM_BUILD_ROOT
