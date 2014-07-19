@@ -1,0 +1,22 @@
+--- AppStream-0.7.0/qt/src/CMakeLists.txt.orig	2014-07-16 16:53:34.000000000 +0200
++++ AppStream-0.7.0/qt/src/CMakeLists.txt	2014-07-19 13:59:16.219821582 +0200
+@@ -33,8 +33,8 @@
+ 
+ install(TARGETS AppstreamQt EXPORT AppstreamQtTargets
+     RUNTIME DESTINATION "bin"
+-    LIBRARY DESTINATION "lib"
+-    ARCHIVE DESTINATION "lib"
++    LIBRARY DESTINATION "lib${LIB_SUFFIX}"
++    ARCHIVE DESTINATION "lib${LIB_SUFFIX}"
+     INCLUDES DESTINATION "include"
+ )
+ 
+@@ -45,7 +45,7 @@
+ export(TARGETS AppstreamQt
+        FILE "${CMAKE_CURRENT_BINARY_DIR}/AppstreamQtTargets.cmake")
+ 
+-set(ConfigPackageLocation lib/cmake/AppstreamQt)
++set(ConfigPackageLocation lib${LIB_SUFFIX}/cmake/AppstreamQt)
+ 
+ configure_file(
+   "${CMAKE_CURRENT_SOURCE_DIR}/AppstreamQtConfig.cmake.in"
