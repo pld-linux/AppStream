@@ -1,3 +1,4 @@
+# TODO: qt5 support (on bcond? devel package not parallel installable with qt4, only soname differs)
 #
 # Conditional build:
 %bcond_without	apidocs		# API documentation build
@@ -7,15 +8,14 @@
 Summary:	AppStream-Core library and tools
 Summary(pl.UTF-8):	Biblioteka i narzędzia AppStream-Core
 Name:		AppStream
-Version:	0.7.0
-Release:	2
+Version:	0.7.4
+Release:	1
 License:	LGPL v2.1+
 Group:		Libraries
 Source0:	http://www.freedesktop.org/software/appstream/releases/%{name}-%{version}.tar.xz
-# Source0-md5:	0626feadb9b64babda4a292ec9ebb684
-Patch0:		%{name}-libdir.patch
+# Source0-md5:	69e6bd4b07a4ece3104acaded5276ba8
+Patch0:		%{name}-cmake.patch
 URL:		http://www.freedesktop.org/wiki/Distributions/AppStream/Software/
-BuildRequires:	PackageKit-devel
 %{?with_qt:BuildRequires:	QtCore-devel >= 4.8.0}
 BuildRequires:	cmake >= 2.8.12
 BuildRequires:	gettext-devel
@@ -30,6 +30,7 @@ BuildRequires:	tar >= 1:1.22
 %{?with_vala:BuildRequires:	vala}
 BuildRequires:	xapian-core-devel >= 1.2
 BuildRequires:	xz
+BuildRequires:	yaml-devel >= 0.1
 %if %{with apidocs}
 BuildRequires:	gtk-doc
 BuildRequires:	publican
@@ -37,6 +38,7 @@ BuildRequires:	xmlto
 %endif
 Requires:	glib2 >= 1:2.36
 Requires:	xapian-core-libs >= 1.2
+Obsoletes:	PackageKit-plugin-appstream
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
@@ -110,21 +112,6 @@ Vala API for AppStream library.
 %description -n vala-appstream -l pl.UTF-8
 API języka Vala do biblioteki AppStream.
 
-%package -n PackageKit-plugin-appstream
-Summary:	AppStream plugin for PackageKit
-Summary(pl.UTF-8):	Wtyczka AppStream dla PackageKita
-Group:		Libraries
-Requires:	%{name} = %{version}-%{release}
-Requires:	PackageKit
-
-%description -n PackageKit-plugin-appstream
-AppStream plugin for PackageKit. It refreshes the AppStream database
-of available applications.
-
-%description -n PackageKit-plugin-appstream -l pl.UTF-8
-Wtyczka AppStream dla PackageKita. Odświeża bazę danych AppStream
-dostępnych aplikacji.
-
 %prep
 %setup -q
 %patch0 -p1
@@ -161,12 +148,12 @@ rm -rf $RPM_BUILD_ROOT
 
 %files -f appstream.lang
 %defattr(644,root,root,755)
-%doc AUTHORS MAINTAINERS NEWS README RELEASE
+%doc AUTHORS MAINTAINERS NEWS README.md RELEASE
 %attr(755,root,root) %{_bindir}/appstream-index
 %attr(755,root,root) %{_bindir}/appstream-validate
 %attr(755,root,root) %{_libdir}/libappstream.so.*.*.*
 %attr(755,root,root) %ghost %{_libdir}/libappstream.so.1
-%{_libdir}/girepository-1.0/Appstream-0.7.typelib
+%{_libdir}/girepository-1.0/AppStream-0.7.typelib
 %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/appstream.conf
 %dir %{_datadir}/app-info
 %{_datadir}/app-info/categories.xml
@@ -176,8 +163,8 @@ rm -rf $RPM_BUILD_ROOT
 %files devel
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/libappstream.so
-%{_datadir}/gir-1.0/Appstream-0.7.gir
-%{_includedir}/Appstream
+%{_datadir}/gir-1.0/AppStream-0.7.gir
+%{_includedir}/AppStream
 %{_pkgconfigdir}/appstream.pc
 
 %if %{with apidocs}
@@ -204,7 +191,3 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(644,root,root,755)
 %{_datadir}/vala/vapi/appstream.vapi
 %endif
-
-%files -n PackageKit-plugin-appstream
-%defattr(644,root,root,755)
-%attr(755,root,root) %{_libdir}/packagekit-plugins/libpk_plugin_appstream.so
