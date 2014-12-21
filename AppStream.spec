@@ -8,12 +8,12 @@
 Summary:	AppStream-Core library and tools
 Summary(pl.UTF-8):	Biblioteka i narzędzia AppStream-Core
 Name:		AppStream
-Version:	0.7.4
+Version:	0.7.5
 Release:	1
 License:	LGPL v2.1+
 Group:		Libraries
 Source0:	http://www.freedesktop.org/software/appstream/releases/%{name}-%{version}.tar.xz
-# Source0-md5:	69e6bd4b07a4ece3104acaded5276ba8
+# Source0-md5:	25c9d393787a1db04ed418be4be21caa
 Patch0:		%{name}-cmake.patch
 URL:		http://www.freedesktop.org/wiki/Distributions/AppStream/Software/
 %{?with_qt:BuildRequires:	QtCore-devel >= 4.8.0}
