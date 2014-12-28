@@ -18,7 +18,7 @@ Patch0:		%{name}-cmake.patch
 URL:		http://www.freedesktop.org/wiki/Distributions/AppStream/Software/
 %{?with_qt:BuildRequires:	QtCore-devel >= 4.8.0}
 BuildRequires:	cmake >= 2.8.12
-BuildRequires:	gettext-devel
+BuildRequires:	gettext-tools
 BuildRequires:	glib2-devel >= 1:2.36
 BuildRequires:	gobject-introspection-devel
 BuildRequires:	intltool
