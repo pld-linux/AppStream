@@ -8,12 +8,12 @@
 Summary:	AppStream-Core library and tools
 Summary(pl.UTF-8):	Biblioteka i narzędzia AppStream-Core
 Name:		AppStream
-Version:	0.7.5
+Version:	0.7.6
 Release:	1
 License:	LGPL v2.1+
 Group:		Libraries
 Source0:	http://www.freedesktop.org/software/appstream/releases/%{name}-%{version}.tar.xz
-# Source0-md5:	25c9d393787a1db04ed418be4be21caa
+# Source0-md5:	613d1cef643846f165137ffeed5bf541
 Patch0:		%{name}-cmake.patch
 URL:		http://www.freedesktop.org/wiki/Distributions/AppStream/Software/
 %{?with_qt:BuildRequires:	QtCore-devel >= 4.8.0}
@@ -152,7 +152,7 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_bindir}/appstream-index
 %attr(755,root,root) %{_bindir}/appstream-validate
 %attr(755,root,root) %{_libdir}/libappstream.so.*.*.*
-%attr(755,root,root) %ghost %{_libdir}/libappstream.so.1
+%attr(755,root,root) %ghost %{_libdir}/libappstream.so.2
 %{_libdir}/girepository-1.0/AppStream-0.7.typelib
 %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/appstream.conf
 %dir %{_datadir}/app-info
