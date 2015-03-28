@@ -4,12 +4,12 @@
 %bcond_without	qt		# Qt library (libappstream-qt)
 %bcond_with	qt4		# Qt 4.x instead of Qt 5 (note: devel supports only single package at a time)
 %bcond_without	vala		# Vala API (VAPI)
-#
+
 Summary:	AppStream-Core library and tools
 Summary(pl.UTF-8):	Biblioteka i narzędzia AppStream-Core
 Name:		AppStream
 Version:	0.8.0
-Release:	1
+Release:	2
 License:	LGPL v2.1+
 Group:		Libraries
 Source0:	http://www.freedesktop.org/software/appstream/releases/%{name}-%{version}.tar.xz
@@ -73,6 +73,9 @@ Pliki nagłówkowe biblioteki AppStream.
 Summary:	AppStream API documentation
 Summary(pl.UTF-8):	Dokumentacja API biblioteki AppStream
 Group:		Documentation
+%if "%{_rpmversion}" >= "5"
+BuildArch:	noarch
+%endif
 
 %description apidocs
 API documentation for AppStream library.
