@@ -2,18 +2,17 @@
 # Conditional build:
 %bcond_without	apidocs		# API documentation build
 %bcond_without	qt		# Qt library (libappstream-qt)
-%bcond_with	qt4		# Qt 4.x instead of Qt 5 (note: devel supports only single package at a time)
 %bcond_without	vala		# Vala API (VAPI)
 
 Summary:	AppStream-Core library and tools
 Summary(pl.UTF-8):	Biblioteka i narzędzia AppStream-Core
 Name:		AppStream
-Version:	0.8.0
-Release:	2
+Version:	0.8.4
+Release:	1
 License:	LGPL v2.1+
 Group:		Libraries
 Source0:	http://www.freedesktop.org/software/appstream/releases/%{name}-%{version}.tar.xz
-# Source0-md5:	9efd0d73f7b0b9391c862cb925b729cf
+# Source0-md5:	8294719755719d64640b84f7a3217591
 Patch0:		%{name}-cmake.patch
 URL:		http://www.freedesktop.org/wiki/Distributions/AppStream/Software/
 BuildRequires:	cmake >= 2.8.12
@@ -30,13 +29,8 @@ BuildRequires:	xapian-core-devel >= 1.2
 BuildRequires:	xz
 BuildRequires:	yaml-devel >= 0.1
 %if %{with qt}
-%if %{with qt4}
-BuildRequires:	QtCore-devel >= 4.8.0
-BuildRequires:	qt4-qmake >= 4.8.0
-%else
 BuildRequires:	Qt5Core-devel >= 5.0
 BuildRequires:	qt5-qmake >= 5.0
-%endif
 %endif
 %if %{with apidocs}
 BuildRequires:	gtk-doc
@@ -87,11 +81,7 @@ Dokumentacja API biblioteki AppStream.
 Summary:	AppstreamQt library
 Summary(pl.UTF-8):	Biblioteka AppstreamQt
 Group:		Libraries
-%if %{with qt4}
-Requires:	QtCore >= 4.8.0
-%else
 Requires:	Qt5Core >= 5.0
-%endif
 Requires:	xapian-core-libs >= 1.2
 
 %description qt
@@ -105,11 +95,7 @@ Summary:	Header files for AppstreamQt library
 Summary(pl.UTF-8):	Pliki nagłówkowe biblioteki AppstreamQt
 Group:		Libraries
 Requires:	%{name}-qt = %{version}-%{release}
-%if %{with qt4}
-Requires:	QtCore-devel >= 4.8.0
-%else
 Requires:	Qt5Core-devel >= 5.0
-%endif
 
 %description qt-devel
 Header files for AppstreamQt library.
@@ -139,7 +125,7 @@ install -d build
 cd build
 %cmake .. \
 	%{?with_apidocs:-DDOCUMENTATION=ON} \
-	%{?with_qt:-DQT=ON %{?with_qt4:-DAPPSTREAM_QT_VERSION=4}} \
+	%{?with_qt:-DQT=ON} \
 	%{?with_vala:-DVAPI=ON}
 
 %{__make} -j1
@@ -167,16 +153,14 @@ rm -rf $RPM_BUILD_ROOT
 %files -f appstream.lang
 %defattr(644,root,root,755)
 %doc AUTHORS MAINTAINERS NEWS README.md RELEASE
-%attr(755,root,root) %{_bindir}/appstream-index
-%attr(755,root,root) %{_bindir}/appstream-validate
+%attr(755,root,root) %{_bindir}/appstreamcli
 %attr(755,root,root) %{_libdir}/libappstream.so.*.*.*
 %attr(755,root,root) %ghost %{_libdir}/libappstream.so.2
 %{_libdir}/girepository-1.0/AppStream-0.8.typelib
 %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/appstream.conf
 %dir %{_datadir}/app-info
 %{_datadir}/app-info/categories.xml
-%{_mandir}/man1/appstream-index.1*
-%{_mandir}/man1/appstream-validate.1*
+%{_mandir}/man1/appstreamcli.1*
 
 %files devel
 %defattr(644,root,root,755)
@@ -196,11 +180,7 @@ rm -rf $RPM_BUILD_ROOT
 %files qt
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/libAppstreamQt.so.*.*.*
-%if %{with qt4}
-%attr(755,root,root) %ghost %{_libdir}/libAppstreamQt.so.0
-%else
 %attr(755,root,root) %ghost %{_libdir}/libAppstreamQt.so.1
-%endif
 
 %files qt-devel
 %defattr(644,root,root,755)
