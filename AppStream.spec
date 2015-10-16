@@ -7,12 +7,12 @@
 Summary:	AppStream-Core library and tools
 Summary(pl.UTF-8):	Biblioteka i narzędzia AppStream-Core
 Name:		AppStream
-Version:	0.8.4
+Version:	0.8.5
 Release:	1
 License:	LGPL v2.1+
 Group:		Libraries
 Source0:	http://www.freedesktop.org/software/appstream/releases/%{name}-%{version}.tar.xz
-# Source0-md5:	8294719755719d64640b84f7a3217591
+# Source0-md5:	7f67e2d822f83f1cb0fbbeac4aa9e55a
 Patch0:		%{name}-cmake.patch
 URL:		http://www.freedesktop.org/wiki/Distributions/AppStream/Software/
 BuildRequires:	cmake >= 2.8.12
@@ -23,6 +23,7 @@ BuildRequires:	intltool
 BuildRequires:	libstdc++-devel
 BuildRequires:	libxml2-devel >= 2.0
 BuildRequires:	pkgconfig
+BuildRequires:	protobuf-devel
 BuildRequires:	tar >= 1:1.22
 %{?with_vala:BuildRequires:	vala}
 BuildRequires:	xapian-core-devel >= 1.2
