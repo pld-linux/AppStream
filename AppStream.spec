@@ -7,15 +7,14 @@
 Summary:	AppStream-Core library and tools
 Summary(pl.UTF-8):	Biblioteka i narzędzia AppStream-Core
 Name:		AppStream
-Version:	0.8.5
+Version:	0.8.6
 Release:	1
 License:	LGPL v2.1+
 Group:		Libraries
 Source0:	http://www.freedesktop.org/software/appstream/releases/%{name}-%{version}.tar.xz
-# Source0-md5:	7f67e2d822f83f1cb0fbbeac4aa9e55a
-Patch0:		%{name}-cmake.patch
+# Source0-md5:	6ef680f00a9f888ea3feb658883bf655
 URL:		http://www.freedesktop.org/wiki/Distributions/AppStream/Software/
-BuildRequires:	cmake >= 2.8.12
+BuildRequires:	cmake >= 3.2.0
 BuildRequires:	gettext-tools
 BuildRequires:	glib2-devel >= 1:2.36
 BuildRequires:	gobject-introspection-devel
@@ -119,7 +118,6 @@ API języka Vala do biblioteki AppStream.
 
 %prep
 %setup -q
-%patch0 -p1
 
 %build
 install -d build
