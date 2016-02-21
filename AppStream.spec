@@ -8,13 +8,13 @@
 Summary:	AppStream-Core library and tools
 Summary(pl.UTF-8):	Biblioteka i narzędzia AppStream-Core
 Name:		AppStream
-Version:	0.9.0
+Version:	0.9.1
 Release:	1
 License:	LGPL v2.1+
 Group:		Libraries
-Source0:	http://www.freedesktop.org/software/appstream/releases/%{name}-%{version}.tar.xz
-# Source0-md5:	ed98d9329a6f892ac466e3465a26750c
-URL:		http://www.freedesktop.org/wiki/Distributions/AppStream/Software/
+Source0:	https://www.freedesktop.org/software/appstream/releases/%{name}-%{version}.tar.xz
+# Source0-md5:	df6f4aaa865f11f2e186fd2fa8ec142d
+URL:		https://www.freedesktop.org/wiki/Distributions/AppStream/
 BuildRequires:	cmake >= 3.2.0
 BuildRequires:	gettext-tools
 BuildRequires:	glib2-devel >= 1:2.36
@@ -104,6 +104,18 @@ Header files for AppstreamQt library.
 %description qt-devel -l pl.UTF-8
 Pliki nagłówkowe biblioteki AppstreamQt.
 
+%package -n gettext-its-metainfo
+Summary:	AppStream metainfo ITS data for gettext tools
+Summary(pl.UTF-8):	Dane ITS AppStream metainfo dla narzędzi gettext
+Group:		Development/Tools
+Requires:	gettext-tools >= 0.19
+
+%description -n gettext-its-metainfo
+AppStream metainfo ITS data for gettext tools.
+
+%description -n gettext-its-metainfo -l pl.UTF-8
+Dane ITS AppStream metainfo dla narzędzi gettext.
+
 %package -n vala-appstream
 Summary:	Vala API for AppStream library
 Summary(pl.UTF-8):	API języka Vala do biblioteki AppStream
@@ -192,6 +204,12 @@ rm -rf $RPM_BUILD_ROOT
 %{_includedir}/AppstreamQt
 %{_libdir}/cmake/AppstreamQt
 %endif
+
+%files -n gettext-its-metainfo
+%defattr(644,root,root,755)
+%dir %{_datadir}/gettext/its
+%{_datadir}/gettext/its/metainfo.its
+%{_datadir}/gettext/its/metainfo.loc
 
 %if %{with vala}
 %files -n vala-appstream
