@@ -210,7 +210,6 @@ rm -rf $RPM_BUILD_ROOT
 
 %files -n gettext-its-metainfo
 %defattr(644,root,root,755)
-%dir %{_datadir}/gettext/its
 %{_datadir}/gettext/its/metainfo.its
 %{_datadir}/gettext/its/metainfo.loc
 
