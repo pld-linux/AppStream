@@ -8,16 +8,16 @@
 Summary:	AppStream-Core library and tools
 Summary(pl.UTF-8):	Biblioteka i narzędzia AppStream-Core
 Name:		AppStream
-Version:	0.9.3
+Version:	0.9.6
 Release:	1
 License:	LGPL v2.1+
 Group:		Libraries
 Source0:	https://www.freedesktop.org/software/appstream/releases/%{name}-%{version}.tar.xz
-# Source0-md5:	38a2a1d63a71feaa022ce340dd0e922b
+# Source0-md5:	c0bbc48f1fb84795cf32f2a19d2b0136
 URL:		https://www.freedesktop.org/wiki/Distributions/AppStream/
 BuildRequires:	cmake >= 3.2.0
 BuildRequires:	gettext-tools
-BuildRequires:	glib2-devel >= 1:2.36
+BuildRequires:	glib2-devel >= 1:2.46
 BuildRequires:	gobject-introspection-devel
 BuildRequires:	intltool
 BuildRequires:	libstdc++-devel >= 6:4.7
@@ -38,7 +38,7 @@ BuildRequires:	gtk-doc
 BuildRequires:	publican
 BuildRequires:	xmlto
 %endif
-Requires:	glib2 >= 1:2.36
+Requires:	glib2 >= 1:2.46
 Requires:	xapian-core-libs >= 1.2
 Obsoletes:	PackageKit-plugin-appstream
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
@@ -56,7 +56,7 @@ Summary:	Header files for AppStream library
 Summary(pl.UTF-8):	Pliki nagłówkowe biblioteki AppStream
 Group:		Development/Libraries
 Requires:	%{name} = %{version}-%{release}
-Requires:	glib2-devel >= 1:2.36
+Requires:	glib2-devel >= 1:2.46
 
 %description devel
 Header files for AppStream library.
