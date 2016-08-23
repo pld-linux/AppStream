@@ -8,12 +8,12 @@
 Summary:	AppStream-Core library and tools
 Summary(pl.UTF-8):	Biblioteka i narzędzia AppStream-Core
 Name:		AppStream
-Version:	0.9.6
+Version:	0.9.8
 Release:	1
 License:	LGPL v2.1+
 Group:		Libraries
 Source0:	https://www.freedesktop.org/software/appstream/releases/%{name}-%{version}.tar.xz
-# Source0-md5:	c0bbc48f1fb84795cf32f2a19d2b0136
+# Source0-md5:	ef59eace0af140a03e0e5807d6057b1f
 URL:		https://www.freedesktop.org/wiki/Distributions/AppStream/
 BuildRequires:	cmake >= 3.2.0
 BuildRequires:	gettext-tools
@@ -26,7 +26,6 @@ BuildRequires:	pkgconfig
 BuildRequires:	protobuf-devel
 BuildRequires:	tar >= 1:1.22
 %{?with_vala:BuildRequires:	vala}
-BuildRequires:	xapian-core-devel >= 1.2
 BuildRequires:	xz
 BuildRequires:	yaml-devel >= 0.1
 %if %{with qt}
@@ -39,7 +38,6 @@ BuildRequires:	publican
 BuildRequires:	xmlto
 %endif
 Requires:	glib2 >= 1:2.46
-Requires:	xapian-core-libs >= 1.2
 Obsoletes:	PackageKit-plugin-appstream
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
@@ -83,7 +81,6 @@ Summary:	AppstreamQt library
 Summary(pl.UTF-8):	Biblioteka AppstreamQt
 Group:		Libraries
 Requires:	Qt5Core >= 5.0
-Requires:	xapian-core-libs >= 1.2
 
 %description qt
 AppstreamQt library.
