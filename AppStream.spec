@@ -8,12 +8,13 @@
 Summary:	AppStream-Core library and tools
 Summary(pl.UTF-8):	Biblioteka i narzędzia AppStream-Core
 Name:		AppStream
-Version:	0.9.8
+Version:	0.10.1
 Release:	1
 License:	LGPL v2.1+
 Group:		Libraries
 Source0:	https://www.freedesktop.org/software/appstream/releases/%{name}-%{version}.tar.xz
-# Source0-md5:	ef59eace0af140a03e0e5807d6057b1f
+# Source0-md5:	a07a54f47a8bc5fafb7d87e86888e019
+Patch0:		%{name}-libstemmer.patch
 URL:		https://www.freedesktop.org/wiki/Distributions/AppStream/
 BuildRequires:	cmake >= 3.2.0
 BuildRequires:	gettext-tools
@@ -21,21 +22,23 @@ BuildRequires:	glib2-devel >= 1:2.46
 BuildRequires:	gobject-introspection-devel
 BuildRequires:	intltool
 BuildRequires:	libstdc++-devel >= 6:4.7
+BuildRequires:	libstemmer-devel
 BuildRequires:	libxml2-devel >= 2.0
 BuildRequires:	pkgconfig
 BuildRequires:	protobuf-devel
 BuildRequires:	tar >= 1:1.22
 %{?with_vala:BuildRequires:	vala}
+BuildRequires:	xmlto
 BuildRequires:	xz
 BuildRequires:	yaml-devel >= 0.1
 %if %{with qt}
 BuildRequires:	Qt5Core-devel >= 5.0
+BuildRequires:	qt5-build >= 5.0
 BuildRequires:	qt5-qmake >= 5.0
 %endif
 %if %{with apidocs}
 BuildRequires:	gtk-doc
 BuildRequires:	publican
-BuildRequires:	xmlto
 %endif
 Requires:	glib2 >= 1:2.46
 Obsoletes:	PackageKit-plugin-appstream
@@ -131,6 +134,7 @@ API języka Vala do biblioteki AppStream.
 
 %prep
 %setup -q
+%patch0 -p1
 
 %build
 install -d build
@@ -168,11 +172,11 @@ rm -rf $RPM_BUILD_ROOT
 %doc AUTHORS MAINTAINERS NEWS README.md RELEASE
 %attr(755,root,root) %{_bindir}/appstreamcli
 %attr(755,root,root) %{_libdir}/libappstream.so.*.*.*
-%attr(755,root,root) %ghost %{_libdir}/libappstream.so.3
+%attr(755,root,root) %ghost %{_libdir}/libappstream.so.4
 %{_libdir}/girepository-1.0/AppStream-1.0.typelib
 %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/appstream.conf
-%dir %{_datadir}/app-info
-%{_datadir}/app-info/categories.xml
+%dir %{_datadir}/metainfo
+%{_datadir}/metainfo/org.freedesktop.appstream.cli.metainfo.xml
 %if %{with apt}
 /etc/apt/apt.conf.d/50appstream
 %endif
