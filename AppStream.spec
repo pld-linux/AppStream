@@ -8,13 +8,12 @@
 Summary:	AppStream-Core library and tools
 Summary(pl.UTF-8):	Biblioteka i narzędzia AppStream-Core
 Name:		AppStream
-Version:	0.10.1
+Version:	0.10.5
 Release:	1
 License:	LGPL v2.1+
 Group:		Libraries
 Source0:	https://www.freedesktop.org/software/appstream/releases/%{name}-%{version}.tar.xz
-# Source0-md5:	a07a54f47a8bc5fafb7d87e86888e019
-Patch0:		%{name}-libstemmer.patch
+# Source0-md5:	a58b021aa86723118feb62960f844392
 URL:		https://www.freedesktop.org/wiki/Distributions/AppStream/
 BuildRequires:	cmake >= 3.2.0
 BuildRequires:	gettext-tools
@@ -134,7 +133,6 @@ API języka Vala do biblioteki AppStream.
 
 %prep
 %setup -q
-%patch0 -p1
 
 %build
 install -d build
@@ -199,14 +197,14 @@ rm -rf $RPM_BUILD_ROOT
 %if %{with qt}
 %files qt
 %defattr(644,root,root,755)
-%attr(755,root,root) %{_libdir}/libAppstreamQt.so.*.*.*
-%attr(755,root,root) %ghost %{_libdir}/libAppstreamQt.so.1
+%attr(755,root,root) %{_libdir}/libAppStreamQt.so.*.*.*
+%attr(755,root,root) %ghost %{_libdir}/libAppStreamQt.so.2
 
 %files qt-devel
 %defattr(644,root,root,755)
-%attr(755,root,root) %{_libdir}/libAppstreamQt.so
-%{_includedir}/AppstreamQt
-%{_libdir}/cmake/AppstreamQt
+%attr(755,root,root) %{_libdir}/libAppStreamQt.so
+%{_includedir}/AppStreamQt
+%{_libdir}/cmake/AppStreamQt
 %endif
 
 %files -n gettext-its-metainfo
