@@ -32,6 +32,7 @@ BuildRequires:	xz
 BuildRequires:	yaml-devel >= 0.1
 %if %{with qt}
 BuildRequires:	Qt5Core-devel >= 5.0
+BuildRequires:	Qt5Test-devel >= 5.0
 BuildRequires:	qt5-build >= 5.0
 BuildRequires:	qt5-qmake >= 5.0
 %endif
