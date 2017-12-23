@@ -8,23 +8,27 @@
 Summary:	AppStream-Core library and tools
 Summary(pl.UTF-8):	Biblioteka i narzędzia AppStream-Core
 Name:		AppStream
-Version:	0.11.1
+Version:	0.11.7
 Release:	1
 License:	LGPL v2.1+
 Group:		Libraries
 Source0:	https://www.freedesktop.org/software/appstream/releases/%{name}-%{version}.tar.xz
-# Source0-md5:	24d330338e0f8a5b5b8c0b1266ea3b41
+# Source0-md5:	9ebc5f5dff51ee6f4d15fdadd782caa7
+Patch0:		%{name}-meson.patch
 URL:		https://www.freedesktop.org/wiki/Distributions/AppStream/
-BuildRequires:	cmake >= 3.2.0
+BuildRequires:	docbook-style-xsl-nons
 BuildRequires:	gettext-tools
 BuildRequires:	glib2-devel >= 1:2.46
 BuildRequires:	gobject-introspection-devel
 BuildRequires:	itstool
-BuildRequires:	libstdc++-devel >= 6:4.7
+BuildRequires:	libstdc++-devel >= 6:4.9
 BuildRequires:	libstemmer-devel
 BuildRequires:	libxml2-devel >= 2.0
+BuildRequires:	libxslt-progs
+BuildRequires:	meson >= 0.42
 BuildRequires:	pkgconfig
 BuildRequires:	protobuf-devel
+BuildRequires:	rpmbuild(macros) >= 1.727
 BuildRequires:	tar >= 1:1.22
 %{?with_vala:BuildRequires:	vala}
 BuildRequires:	xmlto
@@ -39,6 +43,7 @@ BuildRequires:	qt5-qmake >= 5.0
 %if %{with apidocs}
 BuildRequires:	gtk-doc
 BuildRequires:	publican
+BuildRequires:	python3
 %endif
 Requires:	glib2 >= 1:2.46
 Obsoletes:	PackageKit-plugin-appstream
@@ -134,23 +139,23 @@ API języka Vala do biblioteki AppStream.
 
 %prep
 %setup -q
+%patch0 -p1
 
 %build
-install -d build
-cd build
-%cmake .. \
-	%{?with_apt:-DAPT_SUPPORT=ON} \
-	%{?with_apidocs:-DDOCUMENTATION=ON} \
-	%{?with_qt:-DQT=ON} \
-	%{?with_vala:-DVAPI=ON}
+%meson build \
+	%{?with_apidocs:-Ddocs=true} \
+	%{?with_apt:-Dapt-support=true} \
+	%{?with_qt:-Dqt=true} \
+	-Dgir=true \
+	-Dstemming=true \
+	%{?with_vala:-Dvapi=true}
 
-%{__make} -j1
+%meson_build -C build
 
 %install
 rm -rf $RPM_BUILD_ROOT
 
-%{__make} -C build install \
-	DESTDIR=$RPM_BUILD_ROOT
+%meson_install -C build
 
 install -d $RPM_BUILD_ROOT%{_docdir}
 %{__mv} $RPM_BUILD_ROOT%{_datadir}/gtk-doc $RPM_BUILD_ROOT%{_docdir}
@@ -185,7 +190,7 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/libappstream.so
 %{_datadir}/gir-1.0/AppStream-1.0.gir
-%{_includedir}/AppStream
+%{_includedir}/appstream
 %{_pkgconfigdir}/appstream.pc
 
 %if %{with apidocs}
