@@ -8,13 +8,12 @@
 Summary:	AppStream-Core library and tools
 Summary(pl.UTF-8):	Biblioteka i narzędzia AppStream-Core
 Name:		AppStream
-Version:	0.11.7
+Version:	0.11.8
 Release:	1
 License:	LGPL v2.1+
 Group:		Libraries
 Source0:	https://www.freedesktop.org/software/appstream/releases/%{name}-%{version}.tar.xz
-# Source0-md5:	9ebc5f5dff51ee6f4d15fdadd782caa7
-Patch0:		%{name}-meson.patch
+# Source0-md5:	887436049bd96c47ffccef107452c87d
 URL:		https://www.freedesktop.org/wiki/Distributions/AppStream/
 BuildRequires:	docbook-style-xsl-nons
 BuildRequires:	gettext-tools
@@ -139,7 +138,6 @@ API języka Vala do biblioteki AppStream.
 
 %prep
 %setup -q
-%patch0 -p1
 
 %build
 %meson build \
