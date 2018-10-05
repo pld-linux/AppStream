@@ -8,26 +8,26 @@
 Summary:	AppStream-Core library and tools
 Summary(pl.UTF-8):	Biblioteka i narzędzia AppStream-Core
 Name:		AppStream
-Version:	0.11.8
-Release:	2
+Version:	0.12.2
+Release:	1
 License:	LGPL v2.1+
 Group:		Libraries
 Source0:	https://www.freedesktop.org/software/appstream/releases/%{name}-%{version}.tar.xz
-# Source0-md5:	887436049bd96c47ffccef107452c87d
-Patch0:		cmake.patch
+# Source0-md5:	9117728a7287c14eeac20fd9b4e6c791
 URL:		https://www.freedesktop.org/wiki/Distributions/AppStream/
 BuildRequires:	docbook-style-xsl-nons
 BuildRequires:	gettext-tools
 BuildRequires:	glib2-devel >= 1:2.46
-BuildRequires:	gobject-introspection-devel
+BuildRequires:	gobject-introspection-devel >= 1.54
+BuildRequires:	gperf
 BuildRequires:	itstool
 BuildRequires:	libstdc++-devel >= 6:4.9
 BuildRequires:	libstemmer-devel
 BuildRequires:	libxml2-devel >= 2.0
 BuildRequires:	libxslt-progs
 BuildRequires:	meson >= 0.42
+BuildRequires:	ninja
 BuildRequires:	pkgconfig
-BuildRequires:	protobuf-devel
 BuildRequires:	rpmbuild(macros) >= 1.727
 BuildRequires:	tar >= 1:1.22
 %{?with_vala:BuildRequires:	vala}
@@ -70,6 +70,18 @@ Header files for AppStream library.
 %description devel -l pl.UTF-8
 Pliki nagłówkowe biblioteki AppStream.
 
+%package static
+Summary:	Static AppStream library
+Summary(pl.UTF-8):	Statyczna biblioteka AppStream
+Group:		Development/Libraries
+Requires:	%{name}-devel = %{version}-%{release}
+
+%description static
+Static AppStream library.
+
+%description static -l pl.UTF-8
+Statyczna biblioteka AppStream.
+
 %package apidocs
 Summary:	AppStream API documentation
 Summary(pl.UTF-8):	Dokumentacja API biblioteki AppStream
@@ -85,29 +97,41 @@ API documentation for AppStream library.
 Dokumentacja API biblioteki AppStream.
 
 %package qt
-Summary:	AppstreamQt library
-Summary(pl.UTF-8):	Biblioteka AppstreamQt
+Summary:	AppStreamQt library
+Summary(pl.UTF-8):	Biblioteka AppStreamQt
 Group:		Libraries
 Requires:	Qt5Core >= 5.0
 
 %description qt
-AppstreamQt library.
+AppStreamQt library.
 
 %description qt -l pl.UTF-8
-Biblioteka AppstreamQt.
+Biblioteka AppStreamQt.
 
 %package qt-devel
-Summary:	Header files for AppstreamQt library
-Summary(pl.UTF-8):	Pliki nagłówkowe biblioteki AppstreamQt
+Summary:	Header files for AppStreamQt library
+Summary(pl.UTF-8):	Pliki nagłówkowe biblioteki AppStreamQt
 Group:		Libraries
 Requires:	%{name}-qt = %{version}-%{release}
 Requires:	Qt5Core-devel >= 5.0
 
 %description qt-devel
-Header files for AppstreamQt library.
+Header files for AppStreamQt library.
 
 %description qt-devel -l pl.UTF-8
-Pliki nagłówkowe biblioteki AppstreamQt.
+Pliki nagłówkowe biblioteki AppStreamQt.
+
+%package qt-static
+Summary:	Static AppStreamQt library
+Summary(pl.UTF-8):	Statyczna biblioteka AppStreamQt
+Group:		Development/Libraries
+Requires:	%{name}-devel = %{version}-%{release}
+
+%description qt-static
+Static AppStreamQt library.
+
+%description qt-static -l pl.UTF-8
+Statyczna biblioteka AppStreamQt.
 
 %package -n gettext-its-metainfo
 Summary:	AppStream metainfo ITS data for gettext tools
@@ -139,7 +163,6 @@ API języka Vala do biblioteki AppStream.
 
 %prep
 %setup -q
-%patch0 -p1
 
 %build
 %meson build \
@@ -193,6 +216,10 @@ rm -rf $RPM_BUILD_ROOT
 %{_includedir}/appstream
 %{_pkgconfigdir}/appstream.pc
 
+%files static
+%defattr(644,root,root,755)
+%{_libdir}/libappstream.a
+
 %if %{with apidocs}
 %files apidocs
 %defattr(644,root,root,755)
@@ -211,6 +238,10 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/libAppStreamQt.so
 %{_includedir}/AppStreamQt
 %{_libdir}/cmake/AppStreamQt
+
+%files qt-static
+%defattr(644,root,root,755)
+%{_libdir}/libAppStreamQt.a
 %endif
 
 %files -n gettext-its-metainfo
