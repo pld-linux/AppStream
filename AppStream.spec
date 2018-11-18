@@ -8,12 +8,12 @@
 Summary:	AppStream-Core library and tools
 Summary(pl.UTF-8):	Biblioteka i narzędzia AppStream-Core
 Name:		AppStream
-Version:	0.12.2
+Version:	0.12.3
 Release:	1
 License:	LGPL v2.1+
 Group:		Libraries
 Source0:	https://www.freedesktop.org/software/appstream/releases/%{name}-%{version}.tar.xz
-# Source0-md5:	9117728a7287c14eeac20fd9b4e6c791
+# Source0-md5:	b4ad4826fe58534a4a4cbb8c463bc371
 URL:		https://www.freedesktop.org/wiki/Distributions/AppStream/
 BuildRequires:	docbook-style-xsl-nons
 BuildRequires:	gettext-tools
