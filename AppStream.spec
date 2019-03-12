@@ -8,16 +8,16 @@
 Summary:	AppStream-Core library and tools
 Summary(pl.UTF-8):	Biblioteka i narzędzia AppStream-Core
 Name:		AppStream
-Version:	0.12.5
+Version:	0.12.6
 Release:	1
 License:	LGPL v2.1+
 Group:		Libraries
 Source0:	https://www.freedesktop.org/software/appstream/releases/%{name}-%{version}.tar.xz
-# Source0-md5:	a8bece850bc3fe5d0017f1af605f5adf
+# Source0-md5:	ffd1555953828656971424ca5329f352
 URL:		https://www.freedesktop.org/wiki/Distributions/AppStream/
 BuildRequires:	docbook-style-xsl-nons
 BuildRequires:	gettext-tools
-BuildRequires:	glib2-devel >= 1:2.46
+BuildRequires:	glib2-devel >= 1:2.54
 BuildRequires:	gobject-introspection-devel >= 1.54
 BuildRequires:	gperf
 BuildRequires:	itstool
@@ -45,7 +45,7 @@ BuildRequires:	gtk-doc
 BuildRequires:	publican
 BuildRequires:	python3
 %endif
-Requires:	glib2 >= 1:2.46
+Requires:	glib2 >= 1:2.54
 Obsoletes:	PackageKit-plugin-appstream
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
@@ -62,7 +62,7 @@ Summary:	Header files for AppStream library
 Summary(pl.UTF-8):	Pliki nagłówkowe biblioteki AppStream
 Group:		Development/Libraries
 Requires:	%{name} = %{version}-%{release}
-Requires:	glib2-devel >= 1:2.46
+Requires:	glib2-devel >= 1:2.54
 
 %description devel
 Header files for AppStream library.
