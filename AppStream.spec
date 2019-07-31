@@ -8,12 +8,12 @@
 Summary:	AppStream-Core library and tools
 Summary(pl.UTF-8):	Biblioteka i narzędzia AppStream-Core
 Name:		AppStream
-Version:	0.12.6
+Version:	0.12.7
 Release:	1
 License:	LGPL v2.1+
 Group:		Libraries
 Source0:	https://www.freedesktop.org/software/appstream/releases/%{name}-%{version}.tar.xz
-# Source0-md5:	ffd1555953828656971424ca5329f352
+# Source0-md5:	d83f934b7c75bee0d191779f6cf844d4
 URL:		https://www.freedesktop.org/wiki/Distributions/AppStream/
 BuildRequires:	docbook-style-xsl-nons
 BuildRequires:	gettext-tools
@@ -21,12 +21,14 @@ BuildRequires:	glib2-devel >= 1:2.54
 BuildRequires:	gobject-introspection-devel >= 1.54
 BuildRequires:	gperf
 BuildRequires:	itstool
-BuildRequires:	libstdc++-devel >= 6:4.9
+BuildRequires:	libstdc++-devel >= 6:5
 BuildRequires:	libstemmer-devel
 BuildRequires:	libxml2-devel >= 2.0
 BuildRequires:	libxslt-progs
+# with .pc file
+BuildRequires:	lmdb-devel >= 0.9.24-1
 BuildRequires:	meson >= 0.42
-BuildRequires:	ninja
+BuildRequires:	ninja >= 1.5
 BuildRequires:	pkgconfig
 BuildRequires:	rpmbuild(macros) >= 1.727
 BuildRequires:	tar >= 1:1.22
