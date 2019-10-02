@@ -8,12 +8,12 @@
 Summary:	AppStream-Core library and tools
 Summary(pl.UTF-8):	Biblioteka i narzędzia AppStream-Core
 Name:		AppStream
-Version:	0.12.7
+Version:	0.12.9
 Release:	1
 License:	LGPL v2.1+
 Group:		Libraries
 Source0:	https://www.freedesktop.org/software/appstream/releases/%{name}-%{version}.tar.xz
-# Source0-md5:	d83f934b7c75bee0d191779f6cf844d4
+# Source0-md5:	da311c24274498dccc51b83ceb310238
 URL:		https://www.freedesktop.org/wiki/Distributions/AppStream/
 BuildRequires:	docbook-style-xsl-nons
 BuildRequires:	gettext-tools
@@ -31,6 +31,7 @@ BuildRequires:	meson >= 0.42
 BuildRequires:	ninja >= 1.5
 BuildRequires:	pkgconfig
 BuildRequires:	rpmbuild(macros) >= 1.727
+BuildRequires:	sed >= 4
 BuildRequires:	tar >= 1:1.22
 %{?with_vala:BuildRequires:	vala}
 BuildRequires:	xmlto
@@ -166,6 +167,10 @@ API języka Vala do biblioteki AppStream.
 %prep
 %setup -q
 
+%if "%{cc_version}" < "9.0"
+%{__sed} -i -e "s/'-Wno-error=deprecated-copy', //" meson.build
+%endif
+
 %build
 %meson build \
 	%{?with_apidocs:-Ddocs=true} \
@@ -204,7 +209,6 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %ghost %{_libdir}/libappstream.so.4
 %{_libdir}/girepository-1.0/AppStream-1.0.typelib
 %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/appstream.conf
-%dir %{_datadir}/metainfo
 %{_datadir}/metainfo/org.freedesktop.appstream.cli.metainfo.xml
 %if %{with apt}
 /etc/apt/apt.conf.d/50appstream
