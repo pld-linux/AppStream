@@ -8,26 +8,27 @@
 Summary:	AppStream-Core library and tools
 Summary(pl.UTF-8):	Biblioteka i narzędzia AppStream-Core
 Name:		AppStream
-Version:	0.12.9
+Version:	0.12.10
 Release:	1
 License:	LGPL v2.1+
 Group:		Libraries
 Source0:	https://www.freedesktop.org/software/appstream/releases/%{name}-%{version}.tar.xz
-# Source0-md5:	da311c24274498dccc51b83ceb310238
+# Source0-md5:	cd27ff2139bef3942529d9bd5329fd3a
 URL:		https://www.freedesktop.org/wiki/Distributions/AppStream/
 BuildRequires:	docbook-style-xsl-nons
 BuildRequires:	gettext-tools
-BuildRequires:	glib2-devel >= 1:2.54
+BuildRequires:	glib2-devel >= 1:2.58
 BuildRequires:	gobject-introspection-devel >= 1.54
 BuildRequires:	gperf
 BuildRequires:	itstool
+BuildRequires:	libsoup-devel >= 2.56
 BuildRequires:	libstdc++-devel >= 6:5
 BuildRequires:	libstemmer-devel
 BuildRequires:	libxml2-devel >= 2.0
 BuildRequires:	libxslt-progs
 # with .pc file
 BuildRequires:	lmdb-devel >= 0.9.24-1
-BuildRequires:	meson >= 0.42
+BuildRequires:	meson >= 0.48
 BuildRequires:	ninja >= 1.5
 BuildRequires:	pkgconfig
 BuildRequires:	rpmbuild(macros) >= 1.727
@@ -48,7 +49,8 @@ BuildRequires:	gtk-doc
 BuildRequires:	publican
 BuildRequires:	python3
 %endif
-Requires:	glib2 >= 1:2.54
+Requires:	glib2 >= 1:2.58
+Requires:	libsoup >= 2.56
 Obsoletes:	PackageKit-plugin-appstream
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
@@ -65,7 +67,7 @@ Summary:	Header files for AppStream library
 Summary(pl.UTF-8):	Pliki nagłówkowe biblioteki AppStream
 Group:		Development/Libraries
 Requires:	%{name} = %{version}-%{release}
-Requires:	glib2-devel >= 1:2.54
+Requires:	glib2-devel >= 1:2.58
 
 %description devel
 Header files for AppStream library.
@@ -89,7 +91,7 @@ Statyczna biblioteka AppStream.
 Summary:	AppStream API documentation
 Summary(pl.UTF-8):	Dokumentacja API biblioteki AppStream
 Group:		Documentation
-%if "%{_rpmversion}" >= "5"
+%if "%{_rpmversion}" >= "4.6"
 BuildArch:	noarch
 %endif
 
@@ -154,7 +156,7 @@ Summary(pl.UTF-8):	API języka Vala do biblioteki AppStream
 Group:		Development/Libraries
 Requires:	%{name}-devel = %{version}-%{release}
 Requires:	vala
-%if "%{_rpmversion}" >= "5"
+%if "%{_rpmversion}" >= "4.6"
 BuildArch:	noarch
 %endif
 
