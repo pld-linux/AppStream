@@ -91,9 +91,7 @@ Statyczna biblioteka AppStream.
 Summary:	AppStream API documentation
 Summary(pl.UTF-8):	Dokumentacja API biblioteki AppStream
 Group:		Documentation
-%if "%{_rpmversion}" >= "4.6"
 BuildArch:	noarch
-%endif
 
 %description apidocs
 API documentation for AppStream library.
@@ -156,9 +154,7 @@ Summary(pl.UTF-8):	API języka Vala do biblioteki AppStream
 Group:		Development/Libraries
 Requires:	%{name}-devel = %{version}-%{release}
 Requires:	vala
-%if "%{_rpmversion}" >= "4.6"
 BuildArch:	noarch
-%endif
 
 %description -n vala-appstream
 Vala API for AppStream library.
