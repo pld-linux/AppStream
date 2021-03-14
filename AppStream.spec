@@ -1,6 +1,6 @@
 #
 # Conditional build:
-%bcond_without	apidocs		# API documentation build
+%bcond_without	apidocs		# API documentation
 %bcond_with	apt		# Debian/APT support
 %bcond_without	qt		# Qt library (libappstream-qt)
 %bcond_without	vala		# Vala API (VAPI)
@@ -8,19 +8,19 @@
 Summary:	AppStream-Core library and tools
 Summary(pl.UTF-8):	Biblioteka i narzędzia AppStream-Core
 Name:		AppStream
-Version:	0.12.10
+Version:	0.12.11
 Release:	1
 License:	LGPL v2.1+
 Group:		Libraries
 Source0:	https://www.freedesktop.org/software/appstream/releases/%{name}-%{version}.tar.xz
-# Source0-md5:	cd27ff2139bef3942529d9bd5329fd3a
+# Source0-md5:	5bc1b8acf51fc4e9414036f02343d9e2
 URL:		https://www.freedesktop.org/wiki/Distributions/AppStream/
+%{?with_apidocs:BuildRequires:	daps}
 BuildRequires:	docbook-style-xsl-nons
 BuildRequires:	gettext-tools
 BuildRequires:	glib2-devel >= 1:2.58
-BuildRequires:	gobject-introspection-devel >= 1.54
+BuildRequires:	gobject-introspection-devel >= 1.56
 BuildRequires:	gperf
-BuildRequires:	itstool
 BuildRequires:	libsoup-devel >= 2.56
 BuildRequires:	libstdc++-devel >= 6:5
 BuildRequires:	libstemmer-devel
@@ -31,6 +31,8 @@ BuildRequires:	lmdb-devel >= 0.9.24-1
 BuildRequires:	meson >= 0.48
 BuildRequires:	ninja >= 1.5
 BuildRequires:	pkgconfig
+BuildRequires:	python3 >= 1:3
+BuildRequires:	rpm-build >= 4.6
 BuildRequires:	rpmbuild(macros) >= 1.727
 BuildRequires:	sed >= 4
 BuildRequires:	tar >= 1:1.22
@@ -43,11 +45,6 @@ BuildRequires:	Qt5Core-devel >= 5.0
 BuildRequires:	Qt5Test-devel >= 5.0
 BuildRequires:	qt5-build >= 5.0
 BuildRequires:	qt5-qmake >= 5.0
-%endif
-%if %{with apidocs}
-BuildRequires:	gtk-doc
-BuildRequires:	publican
-BuildRequires:	python3
 %endif
 Requires:	glib2 >= 1:2.58
 Requires:	libsoup >= 2.56
