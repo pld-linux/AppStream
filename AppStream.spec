@@ -2,18 +2,19 @@
 # Conditional build:
 %bcond_without	apidocs		# API documentation
 %bcond_with	apt		# Debian/APT support
+%bcond_without	compose		# appstream-compose library
 %bcond_without	qt		# Qt library (libappstream-qt)
 %bcond_without	vala		# Vala API (VAPI)
 
 Summary:	AppStream-Core library and tools
 Summary(pl.UTF-8):	Biblioteka i narzędzia AppStream-Core
 Name:		AppStream
-Version:	0.12.11
+Version:	0.13.1
 Release:	1
 License:	LGPL v2.1+
 Group:		Libraries
 Source0:	https://www.freedesktop.org/software/appstream/releases/%{name}-%{version}.tar.xz
-# Source0-md5:	5bc1b8acf51fc4e9414036f02343d9e2
+# Source0-md5:	6b865cd6f8865ef186e9bf3b3b60affb
 URL:		https://www.freedesktop.org/wiki/Distributions/AppStream/
 %{?with_apidocs:BuildRequires:	daps}
 BuildRequires:	docbook-style-xsl-nons
@@ -33,7 +34,7 @@ BuildRequires:	ninja >= 1.5
 BuildRequires:	pkgconfig
 BuildRequires:	python3 >= 1:3
 BuildRequires:	rpm-build >= 4.6
-BuildRequires:	rpmbuild(macros) >= 1.727
+BuildRequires:	rpmbuild(macros) >= 1.750
 BuildRequires:	sed >= 4
 BuildRequires:	tar >= 1:1.22
 %{?with_vala:BuildRequires:	vala}
@@ -45,6 +46,14 @@ BuildRequires:	Qt5Core-devel >= 5.0
 BuildRequires:	Qt5Test-devel >= 5.0
 BuildRequires:	qt5-build >= 5.0
 BuildRequires:	qt5-qmake >= 5.0
+%endif
+%if %{with compose}
+BuildRequires:	cairo-devel >= 1.12
+BuildRequires:	fontconfig-devel
+BuildRequires:	freetype-devel >= 2
+BuildRequires:	gdk-pixbuf2-devel >= 2.0
+BuildRequires:	librsvg-devel >= 2.0
+BuildRequires:	pango-devel
 %endif
 Requires:	glib2 >= 1:2.58
 Requires:	libsoup >= 2.56
@@ -84,6 +93,20 @@ Static AppStream library.
 %description static -l pl.UTF-8
 Statyczna biblioteka AppStream.
 
+%package -n vala-appstream
+Summary:	Vala API for AppStream library
+Summary(pl.UTF-8):	API języka Vala do biblioteki AppStream
+Group:		Development/Libraries
+Requires:	%{name}-devel = %{version}-%{release}
+Requires:	vala
+BuildArch:	noarch
+
+%description -n vala-appstream
+Vala API for AppStream library.
+
+%description -n vala-appstream -l pl.UTF-8
+API języka Vala do biblioteki AppStream.
+
 %package apidocs
 Summary:	AppStream API documentation
 Summary(pl.UTF-8):	Dokumentacja API biblioteki AppStream
@@ -96,10 +119,50 @@ API documentation for AppStream library.
 %description apidocs -l pl.UTF-8
 Dokumentacja API biblioteki AppStream.
 
+%package compose
+Summary:	AppStreamCompose library
+Summary(pl.UTF-8):	Biblioteka AppStreamCompose
+Group:		Libraries
+Requires:	%{name} = %{version}-%{release}
+
+%description compose
+AppStreamCompose library contains helper functions to generate
+AppStream metadata and auxiliary data.
+
+%description compose -l pl.UTF-8
+Biblioteka AppStreamCompose zawiera funkcje pomocnicze do generowania
+metadanych AppStream oraz danych pomocniczych.
+
+%package compose-devel
+Summary:	Header files for AppStreamCompose library
+Summary(pl.UTF-8):	Pliki nagłówkowe biblioteki AppStreamCompose
+Group:		Development/Libraries
+Requires:	%{name}-compose = %{version}-%{release}
+Requires:	%{name}-devel = %{version}-%{release}
+
+%description compose-devel
+Header files for AppStreamCompose library.
+
+%description compose-devel -l pl.UTF-8
+Pliki nagłówkowe biblioteki AppStreamCompose.
+
+%package compose-static
+Summary:	Static AppStreamCompose library
+Summary(pl.UTF-8):	Statyczna biblioteka AppStreamCompose
+Group:		Development/Libraries
+Requires:	%{name}-compose-devel = %{version}-%{release}
+
+%description compose-static
+Static AppStreamCompose library.
+
+%description compose-static -l pl.UTF-8
+Statyczna biblioteka AppStreamCompose.
+
 %package qt
 Summary:	AppStreamQt library
 Summary(pl.UTF-8):	Biblioteka AppStreamQt
 Group:		Libraries
+Requires:	%{name} = %{version}-%{release}
 Requires:	Qt5Core >= 5.0
 
 %description qt
@@ -145,42 +208,29 @@ AppStream metainfo ITS data for gettext tools.
 %description -n gettext-its-metainfo -l pl.UTF-8
 Dane ITS AppStream metainfo dla narzędzi gettext.
 
-%package -n vala-appstream
-Summary:	Vala API for AppStream library
-Summary(pl.UTF-8):	API języka Vala do biblioteki AppStream
-Group:		Development/Libraries
-Requires:	%{name}-devel = %{version}-%{release}
-Requires:	vala
-BuildArch:	noarch
-
-%description -n vala-appstream
-Vala API for AppStream library.
-
-%description -n vala-appstream -l pl.UTF-8
-API języka Vala do biblioteki AppStream.
-
 %prep
 %setup -q
 
-%if "%{cc_version}" < "9.0"
+%if "%{_ver_lt '%{cc_version}' '9.0'}" == "1"
 %{__sed} -i -e "s/'-Wno-error=deprecated-copy', //" meson.build
 %endif
 
 %build
 %meson build \
-	%{?with_apidocs:-Ddocs=true} \
 	%{?with_apt:-Dapt-support=true} \
-	%{?with_qt:-Dqt=true} \
+	%{?with_compose:-Dcompose=true} \
+	%{?with_apidocs:-Ddocs=true} \
 	-Dgir=true \
+	%{?with_qt:-Dqt=true} \
 	-Dstemming=true \
 	%{?with_vala:-Dvapi=true}
 
-%meson_build -C build
+%ninja_build -C build
 
 %install
 rm -rf $RPM_BUILD_ROOT
 
-%meson_install -C build
+%ninja_install -C build
 
 install -d $RPM_BUILD_ROOT%{_docdir}
 %{__mv} $RPM_BUILD_ROOT%{_datadir}/gtk-doc $RPM_BUILD_ROOT%{_docdir}
@@ -192,6 +242,9 @@ rm -rf $RPM_BUILD_ROOT
 
 %post	-p /sbin/ldconfig
 %postun	-p /sbin/ldconfig
+
+%post	compose -p /sbin/ldconfig
+%postun	compose -p /sbin/ldconfig
 
 %post	qt -p /sbin/ldconfig
 %postun	qt -p /sbin/ldconfig
@@ -221,11 +274,37 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(644,root,root,755)
 %{_libdir}/libappstream.a
 
+%if %{with vala}
+%files -n vala-appstream
+%defattr(644,root,root,755)
+%{_datadir}/vala/vapi/appstream.deps
+%{_datadir}/vala/vapi/appstream.vapi
+%endif
+
 %if %{with apidocs}
 %files apidocs
 %defattr(644,root,root,755)
 %{_docdir}/appstream
 %{_gtkdocdir}/appstream
+%endif
+
+%if %{with compose}
+%files compose
+%defattr(644,root,root,755)
+%attr(755,root,root) %{_libdir}/libappstream-compose.so.*.*.*
+%attr(755,root,root) %ghost %{_libdir}/libappstream-compose.so.0
+%{_libdir}/girepository-1.0/AppStreamCompose-1.0.typelib
+
+%files compose-devel
+%defattr(644,root,root,755)
+%attr(755,root,root) %{_libdir}/libappstream-compose.so
+%{_includedir}/appstream-compose
+%{_datadir}/gir-1.0/AppStreamCompose-1.0.gir
+%{_pkgconfigdir}/appstream-compose.pc
+
+%files compose-static
+%defattr(644,root,root,755)
+%{_libdir}/libappstream-compose.a
 %endif
 
 %if %{with qt}
@@ -249,10 +328,3 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(644,root,root,755)
 %{_datadir}/gettext/its/metainfo.its
 %{_datadir}/gettext/its/metainfo.loc
-
-%if %{with vala}
-%files -n vala-appstream
-%defattr(644,root,root,755)
-%{_datadir}/vala/vapi/appstream.deps
-%{_datadir}/vala/vapi/appstream.vapi
-%endif
