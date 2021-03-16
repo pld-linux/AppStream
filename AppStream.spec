@@ -236,6 +236,11 @@ rm -rf $RPM_BUILD_ROOT
 install -d $RPM_BUILD_ROOT%{_docdir}
 %{__mv} $RPM_BUILD_ROOT%{_datadir}/gtk-doc $RPM_BUILD_ROOT%{_docdir}
 
+# unify
+%{__mv} $RPM_BUILD_ROOT%{_localedir}/{bn_BD,bn}
+# not supported by glibc
+%{__rm} -r $RPM_BUILD_ROOT%{_localedir}/{ain,rom}
+
 %find_lang appstream
 
 %clean
