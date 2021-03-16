@@ -9,20 +9,20 @@
 Summary:	AppStream-Core library and tools
 Summary(pl.UTF-8):	Biblioteka i narzędzia AppStream-Core
 Name:		AppStream
-Version:	0.13.1
+Version:	0.14.3
 Release:	1
 License:	LGPL v2.1+
 Group:		Libraries
 Source0:	https://www.freedesktop.org/software/appstream/releases/%{name}-%{version}.tar.xz
-# Source0-md5:	6b865cd6f8865ef186e9bf3b3b60affb
+# Source0-md5:	fc4c5b9d4c7ace29063e68d16040fbd1
 URL:		https://www.freedesktop.org/wiki/Distributions/AppStream/
+BuildRequires:	curl-devel >= 7.62
 %{?with_apidocs:BuildRequires:	daps}
 BuildRequires:	docbook-style-xsl-nons
 BuildRequires:	gettext-tools
 BuildRequires:	glib2-devel >= 1:2.58
 BuildRequires:	gobject-introspection-devel >= 1.56
 BuildRequires:	gperf
-BuildRequires:	libsoup-devel >= 2.56
 BuildRequires:	libstdc++-devel >= 6:5
 BuildRequires:	libstemmer-devel
 BuildRequires:	libxml2-devel >= 2.0
@@ -55,8 +55,8 @@ BuildRequires:	gdk-pixbuf2-devel >= 2.0
 BuildRequires:	librsvg-devel >= 2.0
 BuildRequires:	pango-devel
 %endif
+Requires:	curl-libs >= 7.62
 Requires:	glib2 >= 1:2.58
-Requires:	libsoup >= 2.56
 Obsoletes:	PackageKit-plugin-appstream
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
@@ -124,6 +124,7 @@ Summary:	AppStreamCompose library
 Summary(pl.UTF-8):	Biblioteka AppStreamCompose
 Group:		Libraries
 Requires:	%{name} = %{version}-%{release}
+Requires:	cairo >= 1.12
 
 %description compose
 AppStreamCompose library contains helper functions to generate
