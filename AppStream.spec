@@ -9,12 +9,12 @@
 Summary:	AppStream-Core library and tools
 Summary(pl.UTF-8):	Biblioteka i narzędzia AppStream-Core
 Name:		AppStream
-Version:	0.14.4
+Version:	0.14.5
 Release:	1
 License:	LGPL v2.1+
 Group:		Libraries
 Source0:	https://www.freedesktop.org/software/appstream/releases/%{name}-%{version}.tar.xz
-# Source0-md5:	1668dea5144dad5939cca88604da02af
+# Source0-md5:	493289909927c89bbcd8b0fd337e3438
 URL:		https://www.freedesktop.org/wiki/Distributions/AppStream/
 BuildRequires:	curl-devel >= 7.62
 %{?with_apidocs:BuildRequires:	daps}
@@ -57,7 +57,7 @@ BuildRequires:	pango-devel
 %endif
 Requires:	curl-libs >= 7.62
 Requires:	glib2 >= 1:2.58
-Obsoletes:	PackageKit-plugin-appstream
+Obsoletes:	PackageKit-plugin-appstream < 0.7.4
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
@@ -297,9 +297,12 @@ rm -rf $RPM_BUILD_ROOT
 %if %{with compose}
 %files compose
 %defattr(644,root,root,755)
+%attr(755,root,root) %{_libexecdir}/appstreamcli-compose
 %attr(755,root,root) %{_libdir}/libappstream-compose.so.*.*.*
 %attr(755,root,root) %ghost %{_libdir}/libappstream-compose.so.0
 %{_libdir}/girepository-1.0/AppStreamCompose-1.0.typelib
+%{_datadir}/metainfo/org.freedesktop.appstream.compose.metainfo.xml
+%{_mandir}/man1/appstreamcli-compose.1*
 
 %files compose-devel
 %defattr(644,root,root,755)
