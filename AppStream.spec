@@ -242,6 +242,9 @@ install -d $RPM_BUILD_ROOT%{_docdir}
 # not supported by glibc
 %{__rm} -r $RPM_BUILD_ROOT%{_localedir}/{ain,rom}
 
+# Unneeded test file
+%{__rm} -r %{buildroot}%{_datadir}/installed-tests
+
 %find_lang appstream
 
 %clean
