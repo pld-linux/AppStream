@@ -10,7 +10,7 @@ Summary:	AppStream-Core library and tools
 Summary(pl.UTF-8):	Biblioteka i narzędzia AppStream-Core
 Name:		AppStream
 Version:	0.16.1
-Release:	1
+Release:	2
 License:	LGPL v2.1+
 Group:		Libraries
 Source0:	https://www.freedesktop.org/software/appstream/releases/%{name}-%{version}.tar.xz
@@ -238,6 +238,7 @@ install -d $RPM_BUILD_ROOT%{_docdir}
 %{__mv} $RPM_BUILD_ROOT%{_datadir}/gtk-doc $RPM_BUILD_ROOT%{_docdir}
 
 # unify
+%{__rm} -r $RPM_BUILD_ROOT%{_localedir}/bn
 %{__mv} $RPM_BUILD_ROOT%{_localedir}/{bn_BD,bn}
 # not supported by glibc
 %{__rm} -r $RPM_BUILD_ROOT%{_localedir}/{ain,rom}
