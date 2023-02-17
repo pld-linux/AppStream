@@ -15,28 +15,31 @@ License:	LGPL v2.1+
 Group:		Libraries
 Source0:	https://www.freedesktop.org/software/appstream/releases/%{name}-%{version}.tar.xz
 # Source0-md5:	1d7ff7d5073af49108590ab6df1d9931
+Patch0:		%{name}-cxx.patch
 URL:		https://www.freedesktop.org/wiki/Distributions/AppStream/
 BuildRequires:	curl-devel >= 7.62
 %{?with_apidocs:BuildRequires:	daps}
 BuildRequires:	docbook-style-xsl-nons
 BuildRequires:	gettext-tools
-BuildRequires:	glib2-devel >= 1:2.58
+BuildRequires:	glib2-devel >= 1:2.62
 BuildRequires:	gobject-introspection-devel >= 1.56
 BuildRequires:	gperf
 BuildRequires:	libstdc++-devel >= 6:5
 BuildRequires:	libstemmer-devel
 BuildRequires:	libxml2-devel >= 2.0
+BuildRequires:	libxmlb-devel >= 0.3.6
 BuildRequires:	libxslt-progs
-# with .pc file
 BuildRequires:	itstool
+# with .pc file
 BuildRequires:	lmdb-devel >= 0.9.24-1
-BuildRequires:	meson >= 0.48
+BuildRequires:	meson >= 0.62
 BuildRequires:	ninja >= 1.5
 BuildRequires:	pkgconfig
 BuildRequires:	python3 >= 1:3
 BuildRequires:	rpm-build >= 4.6
 BuildRequires:	rpmbuild(macros) >= 1.750
 BuildRequires:	sed >= 4
+BuildRequires:	systemd-devel >= 1:209
 BuildRequires:	tar >= 1:1.22
 %{?with_vala:BuildRequires:	vala}
 BuildRequires:	xmlto
@@ -53,11 +56,12 @@ BuildRequires:	cairo-devel >= 1.12
 BuildRequires:	fontconfig-devel
 BuildRequires:	freetype-devel >= 2
 BuildRequires:	gdk-pixbuf2-devel >= 2.0
-BuildRequires:	librsvg-devel >= 2.0
+BuildRequires:	librsvg-devel >= 2.48
 BuildRequires:	pango-devel
 %endif
 Requires:	curl-libs >= 7.62
-Requires:	glib2 >= 1:2.58
+Requires:	glib2 >= 1:2.62
+Requires:	libxmlb >= 0.3.6
 Obsoletes:	PackageKit-plugin-appstream < 0.7.4
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
@@ -74,7 +78,7 @@ Summary:	Header files for AppStream library
 Summary(pl.UTF-8):	Pliki nagłówkowe biblioteki AppStream
 Group:		Development/Libraries
 Requires:	%{name} = %{version}-%{release}
-Requires:	glib2-devel >= 1:2.58
+Requires:	glib2-devel >= 1:2.62
 
 %description devel
 Header files for AppStream library.
@@ -126,6 +130,7 @@ Summary(pl.UTF-8):	Biblioteka AppStreamCompose
 Group:		Libraries
 Requires:	%{name} = %{version}-%{release}
 Requires:	cairo >= 1.12
+Requires:	librsvg >= 2.48
 
 %description compose
 AppStreamCompose library contains helper functions to generate
@@ -212,10 +217,7 @@ Dane ITS AppStream metainfo dla narzędzi gettext.
 
 %prep
 %setup -q
-
-%if "%{_ver_lt '%{cc_version}' '9.0'}" == "1"
-%{__sed} -i -e "s/'-Wno-error=deprecated-copy', //" meson.build
-%endif
+%patch0 -p1
 
 %build
 %meson build \
@@ -237,7 +239,7 @@ rm -rf $RPM_BUILD_ROOT
 install -d $RPM_BUILD_ROOT%{_docdir}
 %{__mv} $RPM_BUILD_ROOT%{_datadir}/gtk-doc $RPM_BUILD_ROOT%{_docdir}
 
-# unify
+# unify; bn_BD is more complete than bn
 %{__rm} -r $RPM_BUILD_ROOT%{_localedir}/bn
 %{__mv} $RPM_BUILD_ROOT%{_localedir}/{bn_BD,bn}
 # not supported by glibc
@@ -297,6 +299,7 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(644,root,root,755)
 %{_docdir}/appstream
 %{_gtkdocdir}/appstream
+%{_gtkdocdir}/appstream-compose
 %endif
 
 %if %{with compose}

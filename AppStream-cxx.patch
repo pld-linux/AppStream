@@ -1,0 +1,32 @@
+--- AppStream-0.16.1/meson.build.orig	2023-02-10 20:54:13.000000000 +0100
++++ AppStream-0.16.1/meson.build	2023-02-16 15:37:15.221219224 +0100
+@@ -1,4 +1,4 @@
+-project('AppStream', 'c',
++project('AppStream', 'c', 'cpp',
+   meson_version: '>=0.62',
+   default_options: ['c_std=c11', 'cpp_std=gnu++14'],
+ 
+@@ -7,6 +7,7 @@ project('AppStream', 'c',
+ )
+ 
+ cc = meson.get_compiler('c')
++cxx = meson.get_compiler('cpp')
+ source_root = meson.project_source_root()
+ 
+ as_version = meson.project_version()
+@@ -123,6 +124,7 @@ add_project_arguments(
+   language: 'c'
+ )
+ add_project_arguments(
++  cxx.get_supported_arguments([
+   '-Wno-unused-parameter',
+   '-Werror=shadow',
+   '-Werror=empty-body',
+@@ -135,6 +137,7 @@ add_project_arguments(
+ 
+   # NOTE: Can be removed with AppStream 1.0
+   '-Wno-error=c++20-compat',
++  ]),
+   language: 'cpp'
+ )
+ 
