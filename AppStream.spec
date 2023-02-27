@@ -24,12 +24,12 @@ BuildRequires:	gettext-tools
 BuildRequires:	glib2-devel >= 1:2.62
 BuildRequires:	gobject-introspection-devel >= 1.56
 BuildRequires:	gperf
+BuildRequires:	itstool
 BuildRequires:	libstdc++-devel >= 6:5
 BuildRequires:	libstemmer-devel
 BuildRequires:	libxml2-devel >= 2.0
 BuildRequires:	libxmlb-devel >= 0.3.6
 BuildRequires:	libxslt-progs
-BuildRequires:	itstool
 # with .pc file
 BuildRequires:	lmdb-devel >= 0.9.24-1
 BuildRequires:	meson >= 0.62
@@ -246,7 +246,7 @@ install -d $RPM_BUILD_ROOT%{_docdir}
 %{__rm} -r $RPM_BUILD_ROOT%{_localedir}/{ain,rom}
 
 # Unneeded test file
-%{__rm} -r %{buildroot}%{_datadir}/installed-tests
+%{__rm} -r $RPM_BUILD_ROOT%{_datadir}/installed-tests
 
 %find_lang appstream
 
