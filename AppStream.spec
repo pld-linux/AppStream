@@ -24,6 +24,7 @@ BuildRequires:	gettext-tools
 BuildRequires:	glib2-devel >= 1:2.62
 BuildRequires:	gobject-introspection-devel >= 1.56
 BuildRequires:	gperf
+%{?with_apidocs:BuildRequires:	gtk-doc}
 BuildRequires:	itstool
 BuildRequires:	libstdc++-devel >= 6:5
 BuildRequires:	libstemmer-devel
@@ -221,9 +222,10 @@ Dane ITS AppStream metainfo dla narzędzi gettext.
 
 %build
 %meson build \
+	-Dapidocs=%{__true_false apidocs} \
 	%{?with_apt:-Dapt-support=true} \
 	%{?with_compose:-Dcompose=true} \
-	%{?with_apidocs:-Ddocs=true} \
+	-Ddocs=%{__true_false apidocs} \
 	-Dgir=true \
 	%{?with_qt:-Dqt=true} \
 	-Dstemming=true \
