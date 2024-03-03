@@ -3,24 +3,25 @@
 %bcond_without	apidocs		# API documentation
 %bcond_with	apt		# Debian/APT support
 %bcond_without	compose		# appstream-compose library
-%bcond_without	qt		# Qt library (libappstream-qt)
+%bcond_without	qt6		# Qt library (libappstream-qt)
 %bcond_without	vala		# Vala API (VAPI)
 
 Summary:	AppStream-Core library and tools
 Summary(pl.UTF-8):	Biblioteka i narzędzia AppStream-Core
 Name:		AppStream
-Version:	0.16.4
+Version:	1.0.2
 Release:	1
 License:	LGPL v2.1+
 Group:		Libraries
 Source0:	https://www.freedesktop.org/software/appstream/releases/%{name}-%{version}.tar.xz
-# Source0-md5:	5d3d3045711a91e3c3c29dcdeaa14074
+# Source0-md5:	00e749276887f816b6d68a7a150e6c97
 Patch0:		%{name}-cxx.patch
 URL:		https://www.freedesktop.org/wiki/Distributions/AppStream/
 BuildRequires:	curl-devel >= 7.62
 %{?with_apidocs:BuildRequires:	daps}
 BuildRequires:	docbook-style-xsl-nons
 BuildRequires:	gettext-tools
+%{?with_apidocs:BuildRequires:	gi-docgen}
 BuildRequires:	glib2-devel >= 1:2.62
 BuildRequires:	gobject-introspection-devel >= 1.56
 BuildRequires:	gperf
@@ -46,11 +47,11 @@ BuildRequires:	tar >= 1:1.22
 BuildRequires:	xmlto
 BuildRequires:	xz
 BuildRequires:	yaml-devel >= 0.1
-%if %{with qt}
-BuildRequires:	Qt5Core-devel >= 5.0
-BuildRequires:	Qt5Test-devel >= 5.0
-BuildRequires:	qt5-build >= 5.0
-BuildRequires:	qt5-qmake >= 5.0
+%if %{with qt6}
+BuildRequires:	Qt6Core-devel >= 5.0
+BuildRequires:	Qt6Test-devel >= 5.0
+BuildRequires:	qt6-build >= 5.0
+BuildRequires:	qt6-qmake >= 5.0
 %endif
 %if %{with compose}
 BuildRequires:	cairo-devel >= 1.12
@@ -166,42 +167,42 @@ Static AppStreamCompose library.
 %description compose-static -l pl.UTF-8
 Statyczna biblioteka AppStreamCompose.
 
-%package qt
+%package qt6
 Summary:	AppStreamQt library
 Summary(pl.UTF-8):	Biblioteka AppStreamQt
 Group:		Libraries
 Requires:	%{name} = %{version}-%{release}
-Requires:	Qt5Core >= 5.0
+Requires:	Qt6Core >= 5.0
 
-%description qt
+%description qt6
 AppStreamQt library.
 
-%description qt -l pl.UTF-8
+%description qt6 -l pl.UTF-8
 Biblioteka AppStreamQt.
 
-%package qt-devel
+%package qt6-devel
 Summary:	Header files for AppStreamQt library
 Summary(pl.UTF-8):	Pliki nagłówkowe biblioteki AppStreamQt
 Group:		Libraries
-Requires:	%{name}-qt = %{version}-%{release}
-Requires:	Qt5Core-devel >= 5.0
+Requires:	%{name}-qt6 = %{version}-%{release}
+Requires:	Qt6Core-devel >= 5.0
 
-%description qt-devel
+%description qt6-devel
 Header files for AppStreamQt library.
 
-%description qt-devel -l pl.UTF-8
+%description qt6-devel -l pl.UTF-8
 Pliki nagłówkowe biblioteki AppStreamQt.
 
-%package qt-static
+%package qt6-static
 Summary:	Static AppStreamQt library
 Summary(pl.UTF-8):	Statyczna biblioteka AppStreamQt
 Group:		Development/Libraries
 Requires:	%{name}-devel = %{version}-%{release}
 
-%description qt-static
+%description qt6-static
 Static AppStreamQt library.
 
-%description qt-static -l pl.UTF-8
+%description qt6-static -l pl.UTF-8
 Statyczna biblioteka AppStreamQt.
 
 %package -n gettext-its-metainfo
@@ -218,7 +219,7 @@ Dane ITS AppStream metainfo dla narzędzi gettext.
 
 %prep
 %setup -q
-%patch0 -p1
+#%patch0 -p1
 
 %build
 %meson build \
@@ -227,7 +228,8 @@ Dane ITS AppStream metainfo dla narzędzi gettext.
 	%{?with_compose:-Dcompose=true} \
 	-Ddocs=%{__true_false apidocs} \
 	-Dgir=true \
-	%{?with_qt:-Dqt=true} \
+	%{?with_qt6:-Dqt=true} \
+	%{?with_qt6:-Dqt-versions="['6']"} \
 	-Dstemming=true \
 	%{?with_vala:-Dvapi=true}
 
@@ -261,22 +263,24 @@ rm -rf $RPM_BUILD_ROOT
 %post	compose -p /sbin/ldconfig
 %postun	compose -p /sbin/ldconfig
 
-%post	qt -p /sbin/ldconfig
-%postun	qt -p /sbin/ldconfig
+%post	qt6 -p /sbin/ldconfig
+%postun	qt6 -p /sbin/ldconfig
 
 %files -f appstream.lang
 %defattr(644,root,root,755)
 %doc AUTHORS MAINTAINERS NEWS README.md RELEASE
 %attr(755,root,root) %{_bindir}/appstreamcli
-%attr(755,root,root) %{_libdir}/libappstream.so.*.*.*
-%attr(755,root,root) %ghost %{_libdir}/libappstream.so.4
+%attr(755,root,root) %{_libdir}/libappstream.so.*.*
+%ghost %{_libdir}/libappstream.so.5
 %{_libdir}/girepository-1.0/AppStream-1.0.typelib
-%config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/appstream.conf
+#%config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/appstream.conf
 %{_datadir}/metainfo/org.freedesktop.appstream.cli.metainfo.xml
 %if %{with apt}
-/etc/apt/apt.conf.d/50appstream
+%{_sysconfdir}/apt/apt.conf.d/50appstream
 %endif
 %{_mandir}/man1/appstreamcli.1*
+%dir %{_datadir}/appstream
+%{_datadir}/appstream/appstream.conf
 
 %files devel
 %defattr(644,root,root,755)
@@ -326,19 +330,19 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/libappstream-compose.a
 %endif
 
-%if %{with qt}
-%files qt
+%if %{with qt6}
+%files qt6
 %defattr(644,root,root,755)
-%attr(755,root,root) %{_libdir}/libAppStreamQt.so.*.*.*
-%attr(755,root,root) %ghost %{_libdir}/libAppStreamQt.so.2
+%attr(755,root,root) %{_libdir}/libAppStreamQt.so.*.*
+%attr(755,root,root) %ghost %{_libdir}/libAppStreamQt.so.3
 
-%files qt-devel
+%files qt6-devel
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/libAppStreamQt.so
 %{_includedir}/AppStreamQt
 %{_libdir}/cmake/AppStreamQt
 
-%files qt-static
+%files qt6-static
 %defattr(644,root,root,755)
 %{_libdir}/libAppStreamQt.a
 %endif
@@ -347,3 +351,4 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(644,root,root,755)
 %{_datadir}/gettext/its/metainfo.its
 %{_datadir}/gettext/its/metainfo.loc
+
