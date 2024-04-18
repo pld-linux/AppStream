@@ -35,7 +35,7 @@ BuildRequires:	itstool
 BuildRequires:	libstdc++-devel >= 6:5
 BuildRequires:	libstemmer-devel
 BuildRequires:	libxml2-devel >= 2.0
-BuildRequires:	libxmlb-devel >= 0.3.13
+BuildRequires:	libxmlb-devel >= 0.3.14
 BuildRequires:	libxslt-progs
 # with .pc file
 BuildRequires:	lmdb-devel >= 0.9.24-1
@@ -52,6 +52,7 @@ BuildRequires:	tar >= 1:1.22
 BuildRequires:	xmlto
 BuildRequires:	xz
 BuildRequires:	yaml-devel >= 0.1
+BuildRequires:	zstd-devel
 %if %{with qt5}
 BuildRequires:	Qt5Core-devel >= 5.15
 BuildRequires:	Qt5Test-devel >= 5.15
@@ -74,7 +75,7 @@ BuildRequires:	pango-devel
 %endif
 Requires:	curl-libs >= 7.62
 Requires:	glib2 >= 1:2.62
-Requires:	libxmlb >= 0.3.13
+Requires:	libxmlb >= 0.3.14
 Obsoletes:	PackageKit-plugin-appstream < 0.7.4
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
