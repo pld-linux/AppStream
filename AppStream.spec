@@ -282,6 +282,7 @@ Dane ITS AppStream metainfo dla narzędzi gettext.
 	%{?with_compose:-Dcompose=true} \
 	-Ddocs=%{__true_false apidocs} \
 	-Dgir=true \
+	-Dinstall-docs=%{__true_false apidocs} \
 	%{?with_qt:-Dqt=true} \
 	%{?with_qt:-Dqt-versions="[%{?with_qt5:'5'%{?with_qt6:,}}%{?with_qt6:'6'}]"} \
 	-Dstemming=true \
