@@ -295,7 +295,7 @@ rm -rf $RPM_BUILD_ROOT
 %ninja_install -C build
 
 install -d $RPM_BUILD_ROOT%{_docdir}
-%{__mv} $RPM_BUILD_ROOT%{_datadir}/gtk-doc $RPM_BUILD_ROOT%{_docdir}
+%{?with_apidocs:%{__mv} $RPM_BUILD_ROOT%{_datadir}/gtk-doc $RPM_BUILD_ROOT%{_docdir}}
 
 # unify; bn_BD is more complete than bn
 %{__rm} -r $RPM_BUILD_ROOT%{_localedir}/bn
