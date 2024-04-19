@@ -6,6 +6,7 @@
 %bcond_without	qt		# Qt libraries (any)
 %bcond_without	qt5		# Qt5 library (libAppStreamQt5)
 %bcond_without	qt6		# Qt6 library (libAppStreamQt)
+%bcond_without	static_libs	# static libraries
 %bcond_without	vala		# Vala API (VAPI)
 
 %if %{without qt}
@@ -277,6 +278,7 @@ Dane ITS AppStream metainfo dla narzędzi gettext.
 
 %build
 %meson build \
+	%{!?with_static_libs:--default-library=shared} \
 	-Dapidocs=%{__true_false apidocs} \
 	%{?with_apt:-Dapt-support=true} \
 	%{?with_compose:-Dcompose=true} \
@@ -344,9 +346,11 @@ rm -rf $RPM_BUILD_ROOT
 %{_includedir}/appstream
 %{_pkgconfigdir}/appstream.pc
 
+%if %{with static_libs}
 %files static
 %defattr(644,root,root,755)
 %{_libdir}/libappstream.a
+%endif
 
 %if %{with vala}
 %files -n vala-appstream
@@ -380,9 +384,11 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/gir-1.0/AppStreamCompose-1.0.gir
 %{_pkgconfigdir}/appstream-compose.pc
 
+%if %{with static_libs}
 %files compose-static
 %defattr(644,root,root,755)
 %{_libdir}/libappstream-compose.a
+%endif
 %endif
 
 %if %{with qt5}
@@ -397,9 +403,11 @@ rm -rf $RPM_BUILD_ROOT
 %{_includedir}/AppStreamQt5
 %{_libdir}/cmake/AppStreamQt5
 
+%if %{with static_libs}
 %files qt5-static
 %defattr(644,root,root,755)
 %{_libdir}/libAppStreamQt5.a
+%endif
 %endif
 
 %if %{with qt6}
@@ -414,9 +422,11 @@ rm -rf $RPM_BUILD_ROOT
 %{_includedir}/AppStreamQt
 %{_libdir}/cmake/AppStreamQt
 
+%if %{with static_libs}
 %files qt6-static
 %defattr(644,root,root,755)
 %{_libdir}/libAppStreamQt.a
+%endif
 %endif
 
 %files -n gettext-its-metainfo
