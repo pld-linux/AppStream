@@ -7,6 +7,7 @@
 %bcond_without	qt5		# Qt5 library (libAppStreamQt5)
 %bcond_without	qt6		# Qt6 library (libAppStreamQt)
 %bcond_without	static_libs	# static libraries
+%bcond_without	systemd		# systemd
 %bcond_without	vala		# Vala API (VAPI)
 
 %if %{without qt}
@@ -47,7 +48,7 @@ BuildRequires:	python3 >= 1:3
 BuildRequires:	rpm-build >= 4.6
 BuildRequires:	rpmbuild(macros) >= 1.750
 BuildRequires:	sed >= 4
-BuildRequires:	systemd-devel >= 1:209
+%{?with_systemd:BuildRequires:	systemd-devel >= 1:209}
 BuildRequires:	tar >= 1:1.22
 %{?with_vala:BuildRequires:	vala}
 BuildRequires:	xmlto
@@ -288,6 +289,7 @@ Dane ITS AppStream metainfo dla narzędzi gettext.
 	%{?with_qt:-Dqt=true} \
 	%{?with_qt:-Dqt-versions="[%{?with_qt5:'5'%{?with_qt6:,}}%{?with_qt6:'6'}]"} \
 	-Dstemming=true \
+	%{!?with_systemd:-Dsystemd=false} \
 	%{?with_vala:-Dvapi=true}
 
 %ninja_build -C build
