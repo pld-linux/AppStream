@@ -17,12 +17,12 @@
 Summary:	AppStream-Core library and tools
 Summary(pl.UTF-8):	Biblioteka i narzędzia AppStream-Core
 Name:		AppStream
-Version:	1.0.4
+Version:	1.0.5
 Release:	1
 License:	LGPL v2.1+
 Group:		Libraries
 Source0:	https://www.freedesktop.org/software/appstream/releases/%{name}-%{version}.tar.xz
-# Source0-md5:	a9f9b45b9a3b2125148821b42b218d77
+# Source0-md5:	c28c3e6d4b0f96812b6a1e2f99006e38
 URL:		https://www.freedesktop.org/wiki/Distributions/AppStream/
 BuildRequires:	curl-devel >= 7.62
 %{?with_apidocs:BuildRequires:	daps}
@@ -46,7 +46,7 @@ BuildRequires:	ninja >= 1.5
 BuildRequires:	pkgconfig
 BuildRequires:	python3 >= 1:3
 BuildRequires:	rpm-build >= 4.6
-BuildRequires:	rpmbuild(macros) >= 1.750
+BuildRequires:	rpmbuild(macros) >= 2.042
 BuildRequires:	sed >= 4
 %{?with_systemd:BuildRequires:	systemd-devel >= 1:209}
 BuildRequires:	tar >= 1:1.22
@@ -59,12 +59,14 @@ BuildRequires:	zstd-devel
 BuildRequires:	Qt5Core-devel >= 5.15
 BuildRequires:	Qt5Test-devel >= 5.15
 BuildRequires:	qt5-build >= 5.15
+BuildRequires:	qt5-linguist >= 5.15
 BuildRequires:	qt5-qmake >= 5.15
 %endif
 %if %{with qt6}
 BuildRequires:	Qt6Core-devel >= 6.2.4
 BuildRequires:	Qt6Test-devel >= 6.2.4
 BuildRequires:	qt6-build >= 6.2.4
+BuildRequires:	qt6-linguist >= 6.2.4
 BuildRequires:	qt6-qmake >= 6.2.4
 %endif
 %if %{with compose}
@@ -278,7 +280,7 @@ Dane ITS AppStream metainfo dla narzędzi gettext.
 %setup -q
 
 %build
-%meson build \
+%meson \
 	%{!?with_static_libs:--default-library=shared} \
 	-Dapidocs=%{__true_false apidocs} \
 	%{?with_apt:-Dapt-support=true} \
@@ -292,12 +294,12 @@ Dane ITS AppStream metainfo dla narzędzi gettext.
 	%{!?with_systemd:-Dsystemd=false} \
 	%{?with_vala:-Dvapi=true}
 
-%ninja_build -C build
+%meson_build
 
 %install
 rm -rf $RPM_BUILD_ROOT
 
-%ninja_install -C build
+%meson_install
 
 install -d $RPM_BUILD_ROOT%{_docdir}
 %{?with_apidocs:%{__mv} $RPM_BUILD_ROOT%{_datadir}/gtk-doc $RPM_BUILD_ROOT%{_docdir}}
