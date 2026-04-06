@@ -17,16 +17,17 @@
 Summary:	AppStream-Core library and tools
 Summary(pl.UTF-8):	Biblioteka i narzędzia AppStream-Core
 Name:		AppStream
-Version:	1.0.5
-Release:	2
+Version:	1.0.6
+Release:	1
 License:	LGPL v2.1+
 Group:		Libraries
 Source0:	https://www.freedesktop.org/software/appstream/releases/%{name}-%{version}.tar.xz
-# Source0-md5:	c28c3e6d4b0f96812b6a1e2f99006e38
+# Source0-md5:	d65b1c4689ea967d7c0e901d6c44a979
 URL:		https://www.freedesktop.org/wiki/Distributions/AppStream/
 BuildRequires:	curl-devel >= 7.62
 %{?with_apidocs:BuildRequires:	daps}
 BuildRequires:	docbook-style-xsl-nons
+BuildRequires:	gcc >= 6:7
 BuildRequires:	gettext-tools
 %{?with_apidocs:BuildRequires:	gi-docgen}
 BuildRequires:	glib2-devel >= 1:2.62
@@ -34,7 +35,7 @@ BuildRequires:	gobject-introspection-devel >= 1.56
 BuildRequires:	gperf
 %{?with_apidocs:BuildRequires:	gtk-doc}
 BuildRequires:	itstool
-BuildRequires:	libstdc++-devel >= 6:5
+BuildRequires:	libstdc++-devel >= 6:8
 BuildRequires:	libstemmer-devel
 BuildRequires:	libxml2-devel >= 2.0
 BuildRequires:	libxmlb-devel >= 0.3.14
@@ -334,7 +335,7 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(644,root,root,755)
 %doc AUTHORS MAINTAINERS NEWS README.md RELEASE
 %attr(755,root,root) %{_bindir}/appstreamcli
-%attr(755,root,root) %{_libdir}/libappstream.so.*.*
+%{_libdir}/libappstream.so.*.*
 %ghost %{_libdir}/libappstream.so.5
 %{_libdir}/girepository-1.0/AppStream-1.0.typelib
 #%config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/appstream.conf
@@ -348,7 +349,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %files devel
 %defattr(644,root,root,755)
-%attr(755,root,root) %{_libdir}/libappstream.so
+%{_libdir}/libappstream.so
 %{_datadir}/gir-1.0/AppStream-1.0.gir
 %{_includedir}/appstream
 %{_pkgconfigdir}/appstream.pc
@@ -378,15 +379,15 @@ rm -rf $RPM_BUILD_ROOT
 %files compose
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libexecdir}/appstreamcli-compose
-%attr(755,root,root) %{_libdir}/libappstream-compose.so.*.*.*
-%attr(755,root,root) %ghost %{_libdir}/libappstream-compose.so.0
+%{_libdir}/libappstream-compose.so.*.*.*
+%ghost %{_libdir}/libappstream-compose.so.0
 %{_libdir}/girepository-1.0/AppStreamCompose-1.0.typelib
 %{_datadir}/metainfo/org.freedesktop.appstream.compose.metainfo.xml
 %{_mandir}/man1/appstreamcli-compose.1*
 
 %files compose-devel
 %defattr(644,root,root,755)
-%attr(755,root,root) %{_libdir}/libappstream-compose.so
+%{_libdir}/libappstream-compose.so
 %{_includedir}/appstream-compose
 %{_datadir}/gir-1.0/AppStreamCompose-1.0.gir
 %{_pkgconfigdir}/appstream-compose.pc
@@ -401,12 +402,12 @@ rm -rf $RPM_BUILD_ROOT
 %if %{with qt5}
 %files qt5
 %defattr(644,root,root,755)
-%attr(755,root,root) %{_libdir}/libAppStreamQt5.so.*.*.*
-%attr(755,root,root) %ghost %{_libdir}/libAppStreamQt5.so.3
+%{_libdir}/libAppStreamQt5.so.*.*.*
+%ghost %{_libdir}/libAppStreamQt5.so.3
 
 %files qt5-devel
 %defattr(644,root,root,755)
-%attr(755,root,root) %{_libdir}/libAppStreamQt5.so
+%{_libdir}/libAppStreamQt5.so
 %{_includedir}/AppStreamQt5
 %{_libdir}/cmake/AppStreamQt5
 
@@ -420,12 +421,12 @@ rm -rf $RPM_BUILD_ROOT
 %if %{with qt6}
 %files qt6
 %defattr(644,root,root,755)
-%attr(755,root,root) %{_libdir}/libAppStreamQt.so.*.*
-%attr(755,root,root) %ghost %{_libdir}/libAppStreamQt.so.3
+%{_libdir}/libAppStreamQt.so.*.*
+%ghost %{_libdir}/libAppStreamQt.so.3
 
 %files qt6-devel
 %defattr(644,root,root,755)
-%attr(755,root,root) %{_libdir}/libAppStreamQt.so
+%{_libdir}/libAppStreamQt.so
 %{_includedir}/AppStreamQt
 %{_libdir}/cmake/AppStreamQt
 
