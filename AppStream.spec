@@ -17,12 +17,13 @@
 Summary:	AppStream-Core library and tools
 Summary(pl.UTF-8):	Biblioteka i narzędzia AppStream-Core
 Name:		AppStream
-Version:	1.0.6
+Version:	1.1.0
 Release:	1
 License:	LGPL v2.1+
 Group:		Libraries
 Source0:	https://www.freedesktop.org/software/appstream/releases/%{name}-%{version}.tar.xz
-# Source0-md5:	d65b1c4689ea967d7c0e901d6c44a979
+# Source0-md5:	93a3e9420288de4ccaabb376cb92999b
+Patch0:		%{name}-includes.patch
 URL:		https://www.freedesktop.org/wiki/Distributions/AppStream/
 BuildRequires:	curl-devel >= 7.62
 %{?with_apidocs:BuildRequires:	daps}
@@ -35,6 +36,7 @@ BuildRequires:	gobject-introspection-devel >= 1.56
 BuildRequires:	gperf
 %{?with_apidocs:BuildRequires:	gtk-doc}
 BuildRequires:	itstool
+BuildRequires:	libfyaml-devel >= 0.8
 BuildRequires:	libstdc++-devel >= 6:8
 BuildRequires:	libstemmer-devel
 BuildRequires:	libxml2-devel >= 2.0
@@ -54,7 +56,6 @@ BuildRequires:	tar >= 1:1.22
 %{?with_vala:BuildRequires:	vala}
 BuildRequires:	xmlto
 BuildRequires:	xz
-BuildRequires:	yaml-devel >= 0.1
 BuildRequires:	zstd-devel
 %if %{with qt5}
 BuildRequires:	Qt5Core-devel >= 5.15
@@ -279,6 +280,7 @@ Dane ITS AppStream metainfo dla narzędzi gettext.
 
 %prep
 %setup -q
+%patch -P0 -p1
 
 %build
 %meson \
