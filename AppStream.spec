@@ -202,7 +202,7 @@ Biblioteka AppStreamQt5.
 %package qt5-devel
 Summary:	Header files for AppStreamQt5 library
 Summary(pl.UTF-8):	Pliki nagłówkowe biblioteki AppStreamQt5
-Group:		Libraries
+Group:		Development/Libraries
 Requires:	%{name}-devel = %{version}-%{release}
 Requires:	%{name}-qt5 = %{version}-%{release}
 Requires:	Qt5Core-devel >= 5.15
@@ -243,7 +243,7 @@ Biblioteka AppStreamQt.
 %package qt6-devel
 Summary:	Header files for AppStreamQt library
 Summary(pl.UTF-8):	Pliki nagłówkowe biblioteki AppStreamQt
-Group:		Libraries
+Group:		Development/Libraries
 Requires:	%{name}-devel = %{version}-%{release}
 Requires:	%{name}-qt6 = %{version}-%{release}
 Requires:	Qt6Core-devel >= 6.2.4
