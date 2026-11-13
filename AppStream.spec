@@ -11,12 +11,12 @@
 Summary:	AppStream-Core library and tools
 Summary(pl.UTF-8):	Biblioteka i narzędzia AppStream-Core
 Name:		AppStream
-Version:	1.2.0
+Version:	1.2.3
 Release:	1
 License:	LGPL v2.1+
 Group:		Libraries
 Source0:	https://www.freedesktop.org/software/appstream/releases/%{name}-%{version}.tar.xz
-# Source0-md5:	609b0e6599566666f2218856155971bb
+# Source0-md5:	36ec35cd3438dcf12dbd6d720673b197
 URL:		https://www.freedesktop.org/wiki/Distributions/AppStream/
 BuildRequires:	blake3-devel
 BuildRequires:	curl-devel >= 7.62
@@ -68,9 +68,9 @@ BuildRequires:	freetype-devel >= 2
 BuildRequires:	libvips-devel >= 8.14
 BuildRequires:	pango-devel
 %endif
-Requires:	curl-libs >= 7.62
-Requires:	glib2 >= 1:2.62
-Requires:	libxmlb >= 0.3.14
+Requires:	curl-libs%{?_isa} >= 7.62
+Requires:	glib2%{?_isa} >= 1:2.62
+Requires:	libxmlb%{?_isa} >= 0.3.14
 Obsoletes:	PackageKit-plugin-appstream < 0.7.4
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
@@ -86,8 +86,8 @@ danych komponentu AppStream.
 Summary:	Header files for AppStream library
 Summary(pl.UTF-8):	Pliki nagłówkowe biblioteki AppStream
 Group:		Development/Libraries
-Requires:	%{name} = %{version}-%{release}
-Requires:	glib2-devel >= 1:2.62
+Requires:	%{name}%{?_isa} = %{version}-%{release}
+Requires:	glib2-devel%{?_isa} >= 1:2.62
 
 %description devel
 Header files for AppStream library.
@@ -99,7 +99,7 @@ Pliki nagłówkowe biblioteki AppStream.
 Summary:	Static AppStream library
 Summary(pl.UTF-8):	Statyczna biblioteka AppStream
 Group:		Development/Libraries
-Requires:	%{name}-devel = %{version}-%{release}
+Requires:	%{name}-devel%{?_isa} = %{version}-%{release}
 
 %description static
 Static AppStream library.
@@ -137,9 +137,9 @@ Dokumentacja API biblioteki AppStream.
 Summary:	AppStreamCompose library
 Summary(pl.UTF-8):	Biblioteka AppStreamCompose
 Group:		Libraries
-Requires:	%{name} = %{version}-%{release}
-Requires:	cairo >= 1.12
-Requires:	librsvg >= 2.48
+Requires:	%{name}%{?_isa} = %{version}-%{release}
+Requires:	cairo%{?_isa} >= 1.12
+Requires:	librsvg%{?_isa} >= 2.48
 
 %description compose
 AppStreamCompose library contains helper functions to generate
@@ -153,8 +153,8 @@ metadanych AppStream oraz danych pomocniczych.
 Summary:	Header files for AppStreamCompose library
 Summary(pl.UTF-8):	Pliki nagłówkowe biblioteki AppStreamCompose
 Group:		Development/Libraries
-Requires:	%{name}-compose = %{version}-%{release}
-Requires:	%{name}-devel = %{version}-%{release}
+Requires:	%{name}-compose%{?_isa} = %{version}-%{release}
+Requires:	%{name}-devel%{?_isa} = %{version}-%{release}
 
 %description compose-devel
 Header files for AppStreamCompose library.
@@ -166,7 +166,7 @@ Pliki nagłówkowe biblioteki AppStreamCompose.
 Summary:	Static AppStreamCompose library
 Summary(pl.UTF-8):	Statyczna biblioteka AppStreamCompose
 Group:		Development/Libraries
-Requires:	%{name}-compose-devel = %{version}-%{release}
+Requires:	%{name}-compose-devel%{?_isa} = %{version}-%{release}
 
 %description compose-static
 Static AppStreamCompose library.
@@ -178,8 +178,8 @@ Statyczna biblioteka AppStreamCompose.
 Summary:	AppStreamQt library
 Summary(pl.UTF-8):	Biblioteka AppStreamQt
 Group:		Libraries
-Requires:	%{name} = %{version}-%{release}
-Requires:	Qt6Core >= 6.2.4
+Requires:	%{name}%{?_isa} = %{version}-%{release}
+Requires:	Qt6Core%{?_isa} >= 6.2.4
 
 %description qt6
 AppStreamQt library.
@@ -191,9 +191,9 @@ Biblioteka AppStreamQt.
 Summary:	Header files for AppStreamQt library
 Summary(pl.UTF-8):	Pliki nagłówkowe biblioteki AppStreamQt
 Group:		Development/Libraries
-Requires:	%{name}-devel = %{version}-%{release}
-Requires:	%{name}-qt6 = %{version}-%{release}
-Requires:	Qt6Core-devel >= 6.2.4
+Requires:	%{name}-devel%{?_isa} = %{version}-%{release}
+Requires:	%{name}-qt6%{?_isa} = %{version}-%{release}
+Requires:	Qt6Core-devel%{?_isa} >= 6.2.4
 
 %description qt6-devel
 Header files for AppStreamQt library.
@@ -205,7 +205,7 @@ Pliki nagłówkowe biblioteki AppStreamQt.
 Summary:	Static AppStreamQt library
 Summary(pl.UTF-8):	Statyczna biblioteka AppStreamQt
 Group:		Development/Libraries
-Requires:	%{name}-qt6-devel = %{version}-%{release}
+Requires:	%{name}-qt6-devel%{?_isa} = %{version}-%{release}
 
 %description qt6-static
 Static AppStreamQt library.
@@ -218,6 +218,7 @@ Summary:	AppStream metainfo ITS data for gettext tools
 Summary(pl.UTF-8):	Dane ITS AppStream metainfo dla narzędzi gettext
 Group:		Development/Tools
 Requires:	gettext-tools >= 0.19
+BuildArch:	noarch
 
 %description -n gettext-its-metainfo
 AppStream metainfo ITS data for gettext tools.
